@@ -1,0 +1,146 @@
+:root {
+    --purple- :#8B008B;
+}
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
+}
+/*HEADER =============*/
+
+header {
+    background-color: var(--purple-);
+    padding: 2rem 0rem 10rem;
+    text-align: center;
+}
+
+#logo {
+    color: #fff;
+}
+
+.container {
+    width: min(90vh, 800px);
+    margin: auto;
+}
+/*BALANCE AND CARDS=============*/
+
+#balance {
+    margin-top: -80px;
+}
+
+#balance h2 {
+    font-size:30px;
+    color: #fff;
+    font-weight: normal;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 50px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.card h3 {
+    color: var(--purple-);
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.card p {
+    font-size: 40px;
+    font-weight: normal;
+    margin-top: 10px;
+}
+
+.card.total {
+    background-color:red;
+    color: white !important;
+}
+
+.card.total h3 {
+    color: white
+}
+
+/*TABBLE ========*/
+#transaction h2 {
+    font-size: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: normal;
+    color: black;
+}
+
+
+#data-table {
+    width: 100%;
+    border-spacing: 0px 10px;
+}
+
+table th {
+    font-weight: normal;
+    color: var(--purple-);
+    opacity: 0.6;
+    padding: 16px 32px;
+    height: 5rem;
+    background-color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+table td{
+    text-align: left;
+    padding: 16px 32px;
+    height: 5rem;
+    opacity: 0.6;
+    background-color: white;
+    
+}
+
+table thead tr th:first-child,
+table tbody tr td:first-child {
+    border-radius: 8px 0px 0px 8px;
+}
+
+table thead tr th:last-child,
+table tbody tr td:last-child {
+    border-radius: 0px 8px 8px 0px;
+}
+
+table tr:hover {
+    background-color: white;
+    transition: 400ms;
+}
+
+td.description {
+    color: var(--purple-);
+    font-weight: bold;
+}
+
+td.income {
+    color: green;
+    font-weight: bold;
+}
+
+td.expense {
+    color: red;
+    font-weight: bold;
+}
+
+td.date {
+    color: black;
+    font-weight: bold;
+}
+
+/*FOOTER =============*/
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--purple-);
+}
