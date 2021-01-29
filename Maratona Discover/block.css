@@ -30,6 +30,8 @@ header {
     position: absolute;
     overflow: hidden;
     clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border-width: 0;
 }
 .container {
     width: min(90vh, 800px);
@@ -59,6 +61,9 @@ header {
     color: var(--purple-);
     font-size: 20px;
     font-weight: normal;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .card p {
@@ -68,7 +73,7 @@ header {
 }
 
 .card.total {
-    background-color:red;
+    background-color:#3dd705;
     color: white !important;
 }
 
@@ -76,7 +81,19 @@ header {
     color: white
 }
 
+
 /*TABBLE ========*/
+.button-new {
+    display: inline-block;
+    margin: 20px 0px 20px 0px;
+    text-decoration: none;
+    color:#3dd705;
+    font-weight: bold;
+}
+
+.button-new:hover {
+    color: #49aa26;
+}
 #transaction h2 {
     font-size: 30px;
     margin-top: 15px;
@@ -93,7 +110,7 @@ header {
 
 table th {
     font-weight: normal;
-    color: var(--purple-);
+    color: black;
     opacity: 0.6;
     padding: 16px 32px;
     height: 5rem;
@@ -127,7 +144,7 @@ table tr:hover {
 }
 
 td.description {
-    color: var(--purple-);
+    color: black;
     font-weight: bold;
 }
 
