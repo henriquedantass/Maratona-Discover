@@ -11,6 +11,10 @@ body {
     background-color: #f0f2f5;
     font-family: 'Poppins', sans-serif;
 }
+
+html {
+    font-size: 93.75%;
+}
 /*HEADER =============*/
 
 header {
@@ -168,4 +172,20 @@ footer {
     margin-top: 20px;
     text-align: center;
     color: var(--purple-);
+}
+
+
+
+/*RESPONSIVIDADE*/
+@media (min-width:800px) {
+    html {
+        font-size:87.5%;
+    }
+
+    #balance {
+        display: grid;
+        grid-template-columns: 2fr 2fr 2fr;
+        gap: 2rem;
+        justify-content: center;
+    }
 }
