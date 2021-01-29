@@ -51,7 +51,7 @@
         </section>
         <section id="transaction">
             <h2 class="sr-only">Transações</h2>
-            <a href="#" class="button-new">+ Nova Transação</a>
+            <a href="#" onclick="Modal.open()" class="button-new">+ Nova Transação</a>
             <table id="data-table">
                 <thead>
                     <tr>
@@ -85,25 +85,25 @@
 
             </table>
         </section>
-        <div class="modal-overlay active">
+        <div class="modal-overlay">
             <div class="modal">
                 <div id="form">
                     <h2>Nova Transação</h2>
                     <form action="">
                         <div class="input-group">
-                            <label for=""></label>
+                            <label class="sr-only" for="description">Descrição</label>
                             <input type="text" id="description" name="description" placeholder="Descrição">
-                            <label for=""></label>
-                            <input type="text" id="valor" name="valor" placeholder="0,00">
+                            <label class="sr-only" for="amount"></label>
+                            <input type="number" id="amount" name="amount" placeholder="0,00" step="0.01">
                         </div>
-                        <p>use o sinal - (negativo) para despesas e  , (virgula) para casas decimais</p>
+                        <small>use o sinal - (negativo) para despesas e  , (virgula) para casas decimais</small>
                         <div class="input-group">
-                            <label for=""></label>
-                            <input type="text">
+                            <label class="sr-only" for="date"></label>
+                            <input type="date" id="date" name="date">
                         </div>
-                        <div class="buttons">
-                            <button class="button-1">Cancelar</button>
-                            <button class="button-2">Salvar</button>
+                        <div class="input-group actions">
+                            <a href="#" onclick="Modal.close()" class="button-cancel">Cancelar</a>
+                            <button>Salvar</button>
                         </div>
                     </form>
                 </div>
@@ -114,6 +114,8 @@
     <footer>
         <p>example.finance$</p>
     </footer>
+
+    <script src="/Maratona Discover/dev.js"></script>
 </body>
 
 </html>
