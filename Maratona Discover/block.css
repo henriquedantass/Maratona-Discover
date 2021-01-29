@@ -22,7 +22,15 @@ header {
 #logo {
     color: #fff;
 }
-
+.sr-only {
+    width: 1px;
+    height: 1px;
+    padding: 0px;
+    margin: -1px;
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+}
 .container {
     width: min(90vh, 800px);
     margin: auto;
