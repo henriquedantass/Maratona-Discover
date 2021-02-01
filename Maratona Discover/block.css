@@ -215,7 +215,7 @@ td.date {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    visibility: hidden;
+    visibility:hidden;
 }
 
 .modal {
