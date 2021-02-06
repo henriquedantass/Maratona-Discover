@@ -51,7 +51,7 @@
         </section>
         <section id="transaction">
             <h2 class="sr-only">Transações</h2>
-            <a href="#" onclick="Modal.toggle()" class="button-new">+ Nova Transação</a>
+            <a href="#" onclick="Modal.open()" class="button-new">+ Nova Transação</a>
             <table id="data-table">
                 <thead>
                     <tr>
@@ -62,24 +62,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="description">Aluguel</td>
-                        <td class="expense">-R$250,00</td>
-                        <td class="date">23/01/2021</td>
-                        <td><img src="/Maratona Discover/assets/minus.svg" alt="Remover Transação"></td>
-                    </tr>
-                    <tr>
-                        <td class="description">Salário</td>
-                        <td class="income">R$1500,00</td>
-                        <td class="date">23/01/2021</td>
-                        <td><img src="/Maratona Discover/assets/minus.svg" alt="Remover Transação"></td>
-                    </tr>
-                    <tr>
-                        <td class="description">Iphone</td>
-                        <td class="expense">-R$300,00</td>
-                        <td class="date">23/01/2021</td>
-                        <td><img src="/Maratona Discover/assets/minus.svg" alt="Remover Transação"></td>
-                    </tr>
                 </tbody>
 
 
@@ -102,7 +84,7 @@
                             <input type="date" id="date" name="date">
                         </div>
                         <div class="input-group actions">
-                            <a href="#" onclick="Modal.toggle()" class="button-cancel">Cancelar</a>
+                            <a href="#" onclick="Modal.close()" class="button-cancel">Cancelar</a>
                             <button>Salvar</button>
                         </div>
                     </form>
