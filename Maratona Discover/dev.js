@@ -17,16 +17,12 @@
 // QUE TROCA CLASSES EXISTENTES
 
 const Modal = {
-    open () {
-        document.querySelector('.modal-overlay').classList.add('active');
+    toggle () {
+        document.querySelector('.modal-overlay').classList.toggle('active')
     },
-
-    close () {
-        document.querySelector('.modal-overlay').classList.remove('active');
-    }
 }
 
-const transcactions = [{
+const transactions = [{
     id: 1,
     description: 'aluguel',
     amount: -25000,
@@ -48,14 +44,36 @@ const transcactions = [{
 ]
 
 const Transaction = {
+    all: transactions,
     incomes () {
-        // calcular as entradas
+        let income = 0;
+        // calcular as entradas, para isso eu devo:
+        // pegar todas as transações,
+        Transaction.all.forEach(function(transaction) {
+            // para cada transação, verificar quais são maior que 0 (positivas)
+            if (transaction.amount > 0) {
+                 // somar a uma varíavel e retorna-la  
+                income = income = transaction.amount; 
+            }
+        })
+        return income; 
     },
     expenses () {
-        //calcular as saídas
+        let expense = 0;
+        // calcular as saídas, para isso eu devo:
+        // pegar todas as transações,
+        Transaction.all.forEach(function(transaction) {
+            // para cada transação eu verifico quais saõ menores que 0 (negativas)
+            if (transaction.amount < 0) {
+                // somo a uma variavel e retorno ela.
+                expense = expense + transaction.amount;
+            }
+        })
+        return expense;
     },
     total () {
-        // entradas - saídas 
+       // subtrair as entradas das saidas 
+       return Transaction.incomes() + Transaction.expenses()
     },
 }
 
@@ -65,30 +83,54 @@ const Transaction = {
 
 const DOM = {
     // CONTAINER DAS TRANSAÇÕES  OU SEJA, ONDE ESTÃO AS TABELAS DAS TRANSAÇÕES.
-    transactionsContainer = document.querySelector('#data-table tbody'), 
-
+    transactionsContainer: document.querySelector('#data-table tbody'), 
     // APÓS CRIAR DEFINIR O CONTAINER DAS TRANSAÇÕES, COM O MÉTODO DE ADICIONARR TRANSAÇÕES
-    // É CRIADO O TR (LINHA DA COLUNA) E ADICIONADO O HTML NELA POR MEIO DO "innerHTML", APÓS ISSO, O CONTAINER 
-    // RECEBE O TR POR MEIO DO "appendChild."
+    // É CRIADO O TR (LINHA DA COLUNA) E ADICIONADO O HTML NELA POR MEIO DO "innerHTML", APÓS ISSO, O CONTAINER RECEBE O TR POR MEIO DO "appendChild."
     addTransaction (transaction, index) { 
-      
         const tr = document.createElement('tr')
         tr.innerHTML = DOM.innerHTMLTransaction(transaction)
         DOM.transactionsContainer.appendChild(tr)
     },
-    innerHTMLTransaction () {
+    innerHTMLTransaction (transaction) {
         CSSclass = transaction.amount > 0 ? "income" : "expense"
-      const html = ` 
+        const amount = Utils.formatCurrency(transaction.amount) 
+         const html = ` 
             <td class="description">${transaction.description}</td>
-            <td class="${CSSclass}">${transaction.amount}</td>
+            <td class="${CSSclass}">${amount}</td>
             <td class="date">${transaction.date}</td>
             <td><img src="/Maratona Discover/assets/minus.svg" alt="Remover Transação"></td>
-    `
-    return html
+        `
+        return html
+    },
+
+    updateBalance () {
+        // selecionar os elementos no HTML e trocar as informações pelo JS.
+        // o Utils é utilizado para formatar os números na moeda brasileira.  
+        document.getElementById('incomeDisplay').innerHTML = Utils.formatCurrency(Transaction.incomes())
+        document.getElementById('expenseDisplay').innerHTML = Utils.formatCurrency(Transaction.expenses())
+        document.getElementById('totalDisplay').innerHTML = Utils.formatCurrency(Transaction.total())
     },
 }
+const Utils = {
+
+    // METODO PARA CONVERTER O VALOR EM REAIS//
+   formatCurrency (value) {
+        const signal = Number (value) < 0 ? "-" : ""  // adicionar sinais de subtração
+        value = String(value).replace(/\D/g,"") // transformar o value em string e selecionar os numeros
+        value = Number(value) / 100  // dividir os numeros por 100
+        value = value.toLocaleString('pt-br', {  // função 'toLocaleString' para formatar os valores 
+        // no padrão brasileiro.
+            style: "currency",
+            currency: "BRL"
+        })
+        return signal + value // o método retorna o valor convertido e concateia com o signal.
+   },
+}
+
 
 transactions.forEach(function(transaction) {
     DOM.addTransaction(transaction)
 }) 
+
+DOM.updateBalance()
 

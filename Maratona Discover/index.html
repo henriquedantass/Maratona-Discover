@@ -24,10 +24,8 @@
                 <h3>
                    <span>Entradas</span> 
                    <img src="/Maratona Discover/assets/income.svg" alt="Image Income">
-                
-                
                 </h3>
-                <p>R$1500,00</p>
+                <p id="incomeDisplay"></p>
 
             </div>
             <div class="card">
@@ -37,7 +35,7 @@
                  
                  
                  </h3>
-                <p>R$550,00</p>
+                <p id="expenseDisplay"></p>
 
             </div>
             <div class="card total">
@@ -45,13 +43,13 @@
                     <span>Total</span> 
                     <img src="/Maratona Discover/assets/total.svg" alt="Image Total">
                  </h3>
-                <p>R$950,00</p>
+                <p id="totalDisplay"></p>
 
             </div>
         </section>
         <section id="transaction">
             <h2 class="sr-only">Transações</h2>
-            <a href="#" onclick="Modal.open()" class="button-new">+ Nova Transação</a>
+            <a  href="#" onclick="Modal.toggle()" class="button-new">+ Nova Transação</a>
             <table id="data-table">
                 <thead>
                     <tr>
@@ -84,7 +82,7 @@
                             <input type="date" id="date" name="date">
                         </div>
                         <div class="input-group actions">
-                            <a href="#" onclick="Modal.close()" class="button-cancel">Cancelar</a>
+                            <a href="#" onclick="Modal.toggle()" class="button-cancel">Cancelar</a>
                             <button>Salvar</button>
                         </div>
                     </form>
@@ -96,7 +94,6 @@
     <footer>
         <p>example.finance$</p>
     </footer>
-
     <script src="/Maratona Discover/dev.js"></script>
 </body>
 
