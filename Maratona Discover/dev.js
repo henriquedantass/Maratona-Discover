@@ -27,3 +27,7 @@ const Modal = {
 };
 
 
+const Transactions = {
+    incomes () {},
+    expenses () {},
+}
