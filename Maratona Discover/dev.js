@@ -22,7 +22,9 @@ const Modal = {
     },
 }
 
-const transactions = [{
+const Transaction = {
+   all: [
+{
     id: 1,
     description: 'aluguel',
     amount: -25000,
@@ -41,10 +43,19 @@ const transactions = [{
     amount: -30000,
     date: '04/01/2021',
 },
-]
+],
 
-const Transaction = {
-    all: transactions,
+    add(transaction) {
+        Transaction.all.push(transaction)
+        App.reload() // chamado para reiniciar a aplicação e adicinar novas transações.
+    },
+    remove (index) {
+        // splice identifica o número do array.
+        Transaction.all.splice(index, 1)
+        // reinicia a aplicação para que a transação seja removida do HTML.
+        App.reload()
+    },
+
     incomes () {
         let income = 0;
         // calcular as entradas, para isso eu devo:
@@ -58,6 +69,7 @@ const Transaction = {
         })
         return income; 
     },
+
     expenses () {
         let expense = 0;
         // calcular as saídas, para isso eu devo:
@@ -71,12 +83,12 @@ const Transaction = {
         })
         return expense;
     },
+
     total () {
        // subtrair as entradas das saidas 
        return Transaction.incomes() + Transaction.expenses()
     },
 }
-
 
 //SUBSTITUIR OS DADOS DO HTML COM OS DADOS DO JS
 // Para isso, é possível usar a função innerHTML do java script. xD
@@ -110,6 +122,10 @@ const DOM = {
         document.getElementById('expenseDisplay').innerHTML = Utils.formatCurrency(Transaction.expenses())
         document.getElementById('totalDisplay').innerHTML = Utils.formatCurrency(Transaction.total())
     },
+
+    clearTransactions () {
+        DOM.transactionsContainer.innerHTML = ""
+    },
 }
 const Utils = {
 
@@ -127,10 +143,78 @@ const Utils = {
    },
 }
 
+const Form = {
+    // SELECIONAR NO DOCUMENTO OS ESPAÇOS PARA SEREM PREENCHIDOS.
+    description: document.querySelector('input#description'),
+    amount: document.querySelector('input#amount'),
+    date: document.querySelector('input#date'),
 
-transactions.forEach(function(transaction) {
-    DOM.addTransaction(transaction)
-}) 
+    // PEGAR OS VALORES PREENCHIDOS.
+    getValues() {
+        return {
+            description: Form.description.value,
+            amount: Form.amount.value,
+            date: Form.date.value,
+        }
+    },
 
-DOM.updateBalance()
+    validateFilds () {
+        // tirar do objeto os valores preenchidos para validar os dados.
+        const {description, amount, date } = Form.getValues()
+    
+        // verificar se os dados estão vazios
+        if (description.trim() === "" || amount.trim() === "" || date.trim() === "") {
+            throw new Error("Dados incompletos, preencha todos os campos") 
+        }
+    },
+
+    formatValues(){
+        let { description, amount, date} = Form.getValues()
+        
+    },
+  
+  
+    submit(event) {
+        try {
+            //verificar se todas as informações foram preenchidas.
+            Form.validateFilds()
+        } catch (error) {
+            alert(error.message)
+        }
+        event.preventDefault() // não fazer a definição padrão do formulário.
+
+        
+        
+        // formatar os dados preenchidos para salvar.
+        Form.formatData()
+
+
+        // salvar os dados.
+        // apagar os dados preenchidos do formulário.
+        // fechar o modal do formulário.
+        // atualizar a aplicação com a nova transação.
+    },
+}
+
+
+// INICIALIZAÇÃO E REINICIALIZAÇÃO DA APLICAÇÃO. //
+
+const App = {
+    // INITIALIZE, POPULARIZA AS TRANSAÇÕES E OS DADOS DO BALANÇO
+    init () {
+        Transaction.all.forEach(function(transaction) {
+            DOM.addTransaction(transaction)
+        }) 
+        DOM.updateBalance()
+    },
+    // RELOAD, REFAZ A POPULAÇÃO DAS TRANSAÇÕES E DO BALANÇO, ADICIONANDO O QUE FOR NOVO.
+    reload () {
+        DOM.clearTransactions()
+        App.init()
+    },
+}
+
+// CHAMADAS // 
+
+App.init()
 
