@@ -26,10 +26,12 @@ const Storage = {
     get() {
         return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
     },
+
     set(transactions) {
         localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
-    },
+    }
 }
+
 
 const Transaction = {
     all: Storage.get(),
@@ -120,8 +122,8 @@ const DOM = {
 }
 const Utils = {
     formatAmount(value) {
-        value = Number(value) * 100
-        return value
+        value = value * 100
+        return Math.round(value)
     },
 
     formatDate(date) {
@@ -200,18 +202,15 @@ const Form = {
     },
 }
 
-
 const App = { // INICIALIZAÇÃO E REINICIALIZAÇÃO DA APLICAÇÃO. //
-
-    init() { // INITIALIZE, POPULARIZA AS TRANSAÇÕES E OS DADOS DO BALANÇO
-        Transaction.all.forEach(function (transaction, index) {
-            DOM.addTransaction(transaction, index)
-        })
+    init() {
+        Transaction.all.forEach(DOM.addTransaction)
+        
         DOM.updateBalance()
+
         Storage.set(Transaction.all)
     },
-
-    reload() {  // RELOAD, REFAZ A POPULAÇÃO DAS TRANSAÇÕES E DO BALANÇO, ADICIONANDO O QUE FOR NOVO.
+    reload() { // RELOAD, REFAZ A POPULAÇÃO DAS TRANSAÇÕES E DO BALANÇO, ADICIONANDO O QUE FOR NOVO.
         DOM.clearTransactions()
         App.init()
     },
