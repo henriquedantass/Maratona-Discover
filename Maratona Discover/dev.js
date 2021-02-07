@@ -22,28 +22,17 @@ const Modal = {
     },
 }
 
-const Transaction = {
-   all: [
-{
-    id: 1,
-    description: 'aluguel',
-    amount: -25000,
-    date: '04/01/2021',
-},
-{
-    id: 2,
-    description: 'salario',
-    amount: 150000,
-    date: '04/01/2021',
+const Storage = {
+    get(){
+        return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+    },
+    set(transactions){
+        localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+    },
+}
 
-},
-{
-    id: 3,
-    description: 'iphone',
-    amount: -30000,
-    date: '04/01/2021',
-},
-],
+const Transaction = {
+   all: Storage.get(),
 
     add(transaction) {
         Transaction.all.push(transaction)
@@ -64,7 +53,7 @@ const Transaction = {
             // para cada transação, verificar quais são maior que 0 (positivas)
             if (transaction.amount > 0) {
                  // somar a uma varíavel e retorna-la  
-                income = income = transaction.amount; 
+                income = income + transaction.amount; 
             }
         })
         return income; 
@@ -86,7 +75,7 @@ const Transaction = {
 
     total () {
        // subtrair as entradas das saidas 
-       return Transaction.incomes() + Transaction.expenses()
+       return Transaction.incomes() + Transaction.expenses();
     },
 }
 
@@ -94,23 +83,25 @@ const Transaction = {
 // Para isso, é possível usar a função innerHTML do java script. xD
 
 const DOM = {
-    // CONTAINER DAS TRANSAÇÕES  OU SEJA, ONDE ESTÃO AS TABELAS DAS TRANSAÇÕES.
-    transactionsContainer: document.querySelector('#data-table tbody'), 
-    // APÓS CRIAR DEFINIR O CONTAINER DAS TRANSAÇÕES, COM O MÉTODO DE ADICIONARR TRANSAÇÕES
-    // É CRIADO O TR (LINHA DA COLUNA) E ADICIONADO O HTML NELA POR MEIO DO "innerHTML", APÓS ISSO, O CONTAINER RECEBE O TR POR MEIO DO "appendChild."
+    
+    transactionsContainer: document.querySelector('#data-table tbody'), // CONTAINER DAS TRANSAÇÕES  OU SEJA, ONDE ESTÃO AS TABELAS DAS TRANSAÇÕES. APÓS CRIAR DEFINIR O CONTAINER DAS TRANSAÇÕES, COM O MÉTODO DE ADICIONARR TRANSAÇÕES É CRIADO O TR (LINHA DA COLUNA) E ADICIONADO O HTML NELA POR MEIO DO "innerHTML", APÓS ISSO, O CONTAINER RECEBE O TR POR MEIO DO "appendChild."
+
     addTransaction (transaction, index) { 
         const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction)
-        DOM.transactionsContainer.appendChild(tr)
+        tr.innerHTML = DOM.innerHTMLTransaction(transaction,index)
+        tr.dataset.index = index
+        DOM.transactionsContainer.appendChild(tr)  // "appendChield" utilizado.
     },
-    innerHTMLTransaction (transaction) {
+    innerHTMLTransaction (transaction, index) {
         CSSclass = transaction.amount > 0 ? "income" : "expense"
         const amount = Utils.formatCurrency(transaction.amount) 
          const html = ` 
             <td class="description">${transaction.description}</td>
             <td class="${CSSclass}">${amount}</td>
             <td class="date">${transaction.date}</td>
-            <td><img src="/Maratona Discover/assets/minus.svg" alt="Remover Transação"></td>
+            <td>
+            <img onclick="Transaction.remove(${index})"src="/Maratona Discover/assets/minus.svg" alt="Remover Transação">
+            </td>
         `
         return html
     },
@@ -128,7 +119,15 @@ const DOM = {
     },
 }
 const Utils = {
+    formatAmount(value){
+        value = Number(value) * 100
+        return value
+    },
 
+    formatDate(date){
+        const splittedDate = date.split("-") // O SPLIT É USADO EM STRINGS PARA FAZER SEPARAÇÕES
+        return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    },
     // METODO PARA CONVERTER O VALOR EM REAIS//
    formatCurrency (value) {
         const signal = Number (value) < 0 ? "-" : ""  // adicionar sinais de subtração
@@ -170,45 +169,48 @@ const Form = {
 
     formatValues(){
         let { description, amount, date} = Form.getValues()
+        amount = Utils.formatAmount(amount)
+        date = Utils.formatDate(date)
+        return {
+            description,
+            amount,
+            date
+        }
         
     },
   
-  
+    clearFields(){
+        Form.description.value = ""
+        Form.amount.value = ""
+        Form.date.value = ""
+    },
+
     submit(event) {
         try {
-            //verificar se todas as informações foram preenchidas.
-            Form.validateFilds()
+           Form.validateFilds() //verificar se todas as informações foram preenchidas.
+           const transaction = Form.formatValues() // formatar os dados preenchidos para salvar.
+            Transaction.add(transaction) // salvar os dados, atualizar a aplicação com a nova transação.
+            Form.clearFields()  // apagar os dados preenchidos do formulário.
+            Modal.toggle()  // fechar o modal do formulário.
+             
         } catch (error) {
             alert(error.message)
         }
         event.preventDefault() // não fazer a definição padrão do formulário.
-
-        
-        
-        // formatar os dados preenchidos para salvar.
-        Form.formatData()
-
-
-        // salvar os dados.
-        // apagar os dados preenchidos do formulário.
-        // fechar o modal do formulário.
-        // atualizar a aplicação com a nova transação.
     },
 }
 
 
-// INICIALIZAÇÃO E REINICIALIZAÇÃO DA APLICAÇÃO. //
+const App = { // INICIALIZAÇÃO E REINICIALIZAÇÃO DA APLICAÇÃO. //
 
-const App = {
-    // INITIALIZE, POPULARIZA AS TRANSAÇÕES E OS DADOS DO BALANÇO
-    init () {
-        Transaction.all.forEach(function(transaction) {
-            DOM.addTransaction(transaction)
+    init () { // INITIALIZE, POPULARIZA AS TRANSAÇÕES E OS DADOS DO BALANÇO
+        Transaction.all.forEach(function(transaction, index) {
+            DOM.addTransaction(transaction, index)
         }) 
         DOM.updateBalance()
     },
-    // RELOAD, REFAZ A POPULAÇÃO DAS TRANSAÇÕES E DO BALANÇO, ADICIONANDO O QUE FOR NOVO.
-    reload () {
+
+    reload () {  // RELOAD, REFAZ A POPULAÇÃO DAS TRANSAÇÕES E DO BALANÇO, ADICIONANDO O QUE FOR NOVO.
         DOM.clearTransactions()
         App.init()
     },
