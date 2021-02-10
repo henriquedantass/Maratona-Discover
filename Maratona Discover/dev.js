@@ -150,7 +150,7 @@ const DOM = {
         `
         return html
     },
-
+   
     updateBalance() {
         // selecionar os elementos no HTML e trocar as informações pelo JS.
         // o Utils é utilizado para formatar os números na moeda brasileira.  
