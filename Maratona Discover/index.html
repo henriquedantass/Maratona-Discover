@@ -13,6 +13,11 @@
 <body>
     <header>
         <img src="/Maratona Discover/assets/logo.svg" alt="">
+        
+        <div class="mode">
+            <input type="checkbox" id="switch" name="theme">
+            <label for="switch">Toggle</label>
+        </div>
     </header>
     <main class="container">
 
@@ -56,7 +61,7 @@
                         <th>Descrição</th>
                         <th>Valor</th>
                         <th>Data</th> 
-                        <th><img src="/Maratona Discover/assets/plus.svg" alt="Adicionar Transação"></th>
+                        <th><img href="#" onclick="Modal.toggle()" src="/Maratona Discover/assets/plus.svg" alt="Adicionar Transação" style="cursor: pointer;"></th>
                     </tr>
                 </thead>
                 <tbody>

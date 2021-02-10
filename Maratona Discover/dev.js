@@ -16,6 +16,49 @@
 // DESSA OUTRA FORMA APENAS UMA LINHA DE CODIGO É UTILIZADA DEVIDO AO 'TOGGLE' 
 // QUE TROCA CLASSES EXISTENTES
 
+// DARK MODE // 
+
+const html = document.querySelector("html")
+const checkbox = document.querySelector("input[name=theme]")
+
+const getStyle = (element, style) => 
+    window
+        .getComputedStyle(element)
+        .getPropertyValue(style)
+
+const initialColors = {
+    bg: getStyle(html, "--bg"),
+    bgHeader: getStyle(html, "--bg-header"),
+    bgHeadings: getStyle(html, "--bg-headings"),
+    bgTotal: getStyle(html, "--bg-total"),
+}
+const darkMode = {
+    bg: "#010409",
+    bgHeader: "#333333",
+    bgHeadings: "#009585",
+    bgTotal:"#009585",
+}
+
+
+const transformKey = key => 
+    "--" + key.replace(/([A-Z])/, "-$1").toLowerCase()
+
+const changeColors = (colors) => {
+    Object.keys(colors).map(key => 
+        html.style.setProperty(transformKey(key), colors[key]) 
+    )
+}
+checkbox.addEventListener("change", ({target}) => {
+    target.checked ? changeColors(darkMode) : changeColors(initialColors)
+})
+
+
+
+
+
+
+
+
 const Modal = {
     toggle() {
         document.querySelector('.modal-overlay').classList.toggle('active')
