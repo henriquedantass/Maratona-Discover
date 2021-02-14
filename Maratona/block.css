@@ -11,7 +11,7 @@
 html {
     font-size: 93.75%;
     --bg: #f0f2f5;
-    --bg-header:#8B008B;
+    --bg-header:rgb(131, 0, 131);
     --bg-headings:#8B008B;
     --bg-total:#49aa26;
 }
